@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ItemsToPush Include="$(MSBuildThisFileDirectory)\assets\*\*.txt">
+    <ItemsToPush Include="$(MSBuildThisFileDirectory)\assets\*\*.msi">
       <RelativeBlobPath>)assets\$([System.IO.Path]::GetDirectoryName(%(FullPath)))\%(Filename)%(Extension)</RelativeBlobPath>
       <PublishFlatContainer>true</PublishFlatContainer>
     </ItemsToPush>
