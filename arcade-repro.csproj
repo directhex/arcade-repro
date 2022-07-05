@@ -34,7 +34,7 @@
       <AssetManifestFile>assets\Manifest.xml</AssetManifestFile>
     </PropertyGroup>
 
-  <Target Name="Upload">
+  <Target Name="Upload" AfterTargets="Build">
       <PushToAzureDevOpsArtifacts
       AzureDevOpsCollectionUri="$(SYSTEM_TEAMFOUNDATIONCOLLECTIONURI)"
       AzureDevOpsProject="$(SYSTEM_TEAMPROJECT)"
