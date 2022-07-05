@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ItemsToPush Include="assets\*\*.txt">
+    <ItemsToPush Include="$(MSBuildThisFileDirectory)\assets\*\*.txt">
       <RelativeBlobPath>)assets\$([System.IO.Path]::GetDirectoryName(%(FullPath)))\%(Filename)%(Extension)</RelativeBlobPath>
       <PublishFlatContainer>true</PublishFlatContainer>
     </ItemsToPush>
@@ -31,7 +31,7 @@
   </ItemGroup>
 
     <PropertyGroup>
-      <AssetManifestFile>assets\Manifest.xml</AssetManifestFile>
+      <AssetManifestFile>$(MSBuildThisFileDirectory)assets\Manifest.xml</AssetManifestFile>
     </PropertyGroup>
 
   <Target Name="Upload" AfterTargets="Build">
