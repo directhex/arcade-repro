@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>arcade_repro</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.DotNet.Build.Tasks.Feed" Version="6.0.0-beta.22314.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ItemsToPush Include="assets\*\*.txt">
+      <RelativeBlobPath>)assets\$([System.IO.Path]::GetDirectoryName(%(FullPath)))\%(Filename)%(Extension)</RelativeBlobPath>
+      <PublishFlatContainer>true</PublishFlatContainer>
+    </ItemsToPush>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ManifestBuildData Include="InitialAssetsLocation=$(SYSTEM_TEAMFOUNDATIONCOLLECTIONURI)$(SYSTEM_TEAMPROJECT)/_apis/build/builds/$(BUILD_BUILDID)/artifacts" />
+    <ManifestBuildData Include="AzureDevOpsBuildId=$(BUILD_BUILDID)" />
+    <ManifestBuildData Include="AzureDevOpsBuildDefinitionId=$(SYSTEM_DEFINITIONID)" />
+    <ManifestBuildData Include="AzureDevOpsAccount=$(AzureDevOpsAccount)" />
+    <ManifestBuildData Include="AzureDevOpsProject=$(SYSTEM_TEAMPROJECT)" />
+    <ManifestBuildData Include="AzureDevOpsBuildNumber=$(BUILD_BUILDNUMBER)" />
+    <ManifestBuildData Include="AzureDevOpsRepository=$(BUILD_REPOSITORY_URI)" />
+    <ManifestBuildData Include="AzureDevOpsBranch=$(BUILD_SOURCEBRANCH)" />
+  </ItemGroup>
+
+    <PropertyGroup>
+      <AssetManifestFile>assets\Manifest.xml</AssetManifestFile>
+    </PropertyGroup>
+
+  <Target Name="Upload">
+      <PushToAzureDevOpsArtifacts
+      AzureDevOpsCollectionUri="$(SYSTEM_TEAMFOUNDATIONCOLLECTIONURI)"
+      AzureDevOpsProject="$(SYSTEM_TEAMPROJECT)"
+      AzureDevOpsBuildId="$(BUILD_BUILDID)"
+      ItemsToSign=""
+      StrongNameSignInfo=""
+      FileSignInfo=""
+      FileExtensionSignInfo=""
+      ItemsToPush="@(ItemsToPush)"
+      ManifestBuildData="@(ManifestBuildData)"
+      ManifestRepoUri="$(BUILD_REPOSITORY_NAME)"
+      ManifestBranch="$(BUILD_SOURCEBRANCH)"
+      ManifestBuildId="$(BUILD_BUILDNUMBER)"
+      ManifestCommit="$(BUILD_SOURCEVERSION)"
+      IsStableBuild="false"
+      AssetManifestPath="$(AssetManifestFile)"
+      AssetsTemporaryDirectory="temp"
+      PublishingVersion ="3" />
+  </Target>
+
+</Project>
